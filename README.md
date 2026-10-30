@@ -1,64 +1,44 @@
-# 🗑️ Smart Waste Bin Dashboard
+# 🗑️ Smart Waste Bin Dashboard (Next.js)
 
-Web Dashboard untuk monitoring Smart Waste Bin secara real-time menggunakan Node.js, MQTT, dan Socket.IO.
+Web Dashboard untuk monitoring Smart Waste Bin secara real-time. Dibangun dengan **Next.js 14 (App Router)** sehingga dapat **di-deploy gratis ke Vercel**.
 
 ## Fitur
 
-- 📡 **Koneksi MQTT Real-time** - Menghubungi broker HiveMQ dan menerima data langsung
-- 🔄 **Update Otomatis** - Dashboard update secara real-time via Socket.IO
-- 📊 **Visualisasi Data** - Menampilkan persentase kapasitas, jarak sensor, dan status
-- 🎨 **Desain Modern** - UI yang bersih dan responsif
+- 📡 **Data metabol dari HiveMQ** — API Route Next.js (`/api/data`) berlangganan ke topik MQTT `smartbin/wokwi/stage2/data`, mem-parse payload JSON, dan mengembalikannya sebagai respons HTTP.
+- 🔄 **Polling otomatis** — Client memanggil `/api/data` tiap beberapa detik sehingga UI selalu menampilkan data terbaru (tanpa WebSocket, kompatibel dengan serverless Vercel).
+- 📊 **Visualisasi lengkap** — badge status, progress bar kapasitas, jarak sensor, indikator lampu, & animasi tempat sampah.
+- 🎨 **Desain card modern** — 4 kartu: Status, Kapasitas, Sensor, Visualisasi.
 
-## Struktur Project
+## Struktur Project (Next.js App Router)
 
 ```
 smart-waste-dashboard/
-├── server.js           # Server Node.js dengan MQTT & Socket.IO
-├── package.json        # Konfigurasi dependencies
-├── public/
-│   ├── index.html      # Halaman Dashboard
-│   ├── css/
-│   │   └── style.css   # Styling CSS
-│   └── js/
-│       └── app.js      # Client-side JavaScript
+├── app/
+│   ├── layout.js              # Root layout (metadata, lang)
+│   ├── page.js                # Halaman utama
+│   ├── globals.css            # Semua styling dashboard
+│   ├── components/
+│   │   └── Dashboard.js       # Komponen client (polling + render UI)
+│   └── api/
+│       └── data/
+│           └── route.js       # API serverless: subscribe MQTT → JSON
+├── next.config.js
+├── package.json
+├── .env                       # Konfigurasi MQTT
 └── README.md
 ```
 
-## Instalasi
+## Konfigurasi MQTT (`.env`)
 
-1. **Install Node.js** (jika belum ada)
-
-2. **Install dependencies:**
-   ```bash
-   cd smart-waste-dashboard
-   npm install
-   ```
-
-3. **Jalankan server:**
-   ```bash
-   npm start
-   ```
-
-4. **Buka browser** di `http://localhost:3000`
-
-## Konfigurasi MQTT
-
-| Parameter     | Default                    |
-|---------------|----------------------------|
-| Broker        | `broker.hivemq.com`        |
-| Port          | `1883`                     |
-| Topic         | `smartbin/wokwi/stage2/data` |
-
-Untuk mengubah konfigurasi, edit file `server.js`:
-```javascript
-const MQTT_BROKER = 'broker.hivemq.com';
-const MQTT_PORT = 1883;
-const MQTT_TOPIC = 'smartbin/wokwi/stage2/data';
+```env
+MQTT_BROKER=broker.hivemq.com
+MQTT_PORT=1883
+MQTT_TOPIC=smartbin/wokwi/stage2/data
+NEXT_PUBLIC_MQTT_TOPIC=smartbin/wokwi/stage2/data
 ```
 
-## Format Data MQTT
+## Format Data MQTT (dikirim oleh Wokwi/ESP32)
 
-Dashboard menerima data dalam format JSON:
 ```json
 {
   "distance": 12.5,
@@ -67,39 +47,52 @@ Dashboard menerima data dalam format JSON:
 }
 ```
 
-### Status Values
-- `NORMAL` - Kapasitas normal (< 70%)
-- `HAMPIR_PENUH` - Hampir penuh (70-90%)
-- `PENUH` - Penuh (> 90%)
-- `SENSOR_ERROR` - Error pada sensor
-- `WAITING` - Menunggu data
+Status: `NORMAL` | `HAMPIR_PENUH` | `PENUH` | `SENSOR_ERROR` | `WAITING`
 
-## API Endpoints
+## Menjalankan Lokal
 
-| Endpoint        | Method | Deskripsi                    |
-|-----------------|--------|------------------------------|
-| `/api/status`   | GET    | Status koneksi MQTT & data    |
-| `/api/health`   | GET    | Health check server          |
+```bash
+npm install
+npm run dev        # buka http://localhost:3000
+```
 
-## Teknologi
+## Deploy ke Vercel (gratis)
 
-- **Node.js** - Server runtime
-- **Express.js** - Web framework
-- **MQTT.js** - MQTT client library
-- **Socket.IO** - Real-time communication
-- **Vanilla JS** - Client-side logic
+### Opsi 1 — Vercel CLI
+```bash
+npm i -g vercel
+vercel --prod
+```
 
-## Screenshoot
+### Opsi 2 — Dashboard Vercel
+1. Push repo ke GitHub.
+2. Buka https://vercel.com/new → Import repository.
+3. Framework preset: **Next.js** (otomatis terdeteksi).
+4. Tambahkan Environment Variables (MQTT_BROKER, MQTT_PORT, MQTT_TOPIC).
+5. Klik **Deploy**.
+
+Setiap push ke `main` akan otomatis redeploy.
+
+## Cara Kerja Data Real-time
 
 ```
-╔═══════════════════════════════════════════════════════════╗
-║     🗑️ SMART WASTE BIN DASHBOARD SERVER                   ║
-╠═══════════════════════════════════════════════════════════╣
-║  🌐 Server running: http://localhost:3000                 ║
-║  📡 MQTT Broker: broker.hivemq.com:1883                   ║
-║  📋 Topic: smartbin/wokwi/stage2/data                     ║
-╚═══════════════════════════════════════════════════════════╝
+ESP32/Wokwi ──publish──▶ HiveMQ (broker.hivemq.com)
+                             │
+                             ▼ subscribe
+                    /api/data (Vercel Serverless, Node.js)
+                             │ JSON {distance, fill, status}
+                             ▼ polling tiap 4 detik
+                    Dashboard (client component)
 ```
+
+> Catatan: Karena Vercel serverless tidak mendukung WebSocket persisten, dashboard menggunakan **polling HTTP**. Interval polling bisa diubah `POLL_INTERVAL` di `app/components/Dashboard.js`.
+
+## API
+
+| Endpoint     | Method | Deskripsi                                    |
+|--------------|--------|----------------------------------------------|
+| `/api/data`  | GET    | Data terbaru dari broker MQTT (JSON)         |
+| `/`          | GET    | Dashboard UI                                 |
 
 ## Lisensi
 

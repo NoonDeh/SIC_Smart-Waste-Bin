@@ -1,5 +1,5 @@
 /* ============================================================
-   SMART WASTE BIN DASHBOARD - STYLES
+   SMART WASTE BIN DASHBOARD - STYLES (Next.js App Router)
    ============================================================ */
 
 :root {
@@ -425,19 +425,6 @@ body {
     padding: 20px;
     color: var(--text-secondary);
     font-size: 13px;
-}
-
-/* ============================================================
-   ANIMATIONS
-   ============================================================ */
-@keyframes fillAnimation {
-    0% { transform: scaleY(0.95); }
-    50% { transform: scaleY(1.02); }
-    100% { transform: scaleY(1); }
-}
-
-.animate-fill {
-    animation: fillAnimation 0.3s ease;
 }
 
 /* ============================================================

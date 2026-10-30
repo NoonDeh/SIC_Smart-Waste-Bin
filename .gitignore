@@ -1,26 +1,28 @@
-# Dependencies
-node_modules/
+# dependencies
+/node_modules
 
-# Logs
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# logs
 logs/
 *.log
 npm-debug.log*
 
-# Environment
+# Environment (bisa ditambahkan manual di Vercel)
 .env
 .env.local
-.env.*
+.env.*.local
 
-# OS files
+# misc
 .DS_Store
-Thumbs.db
-
-# IDE
-.vscode/
-.idea/
-
-# Build
-dist/
-build/
-
+*.pem
 .vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
