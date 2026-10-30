@@ -9,9 +9,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
-const MQTT_BROKER = process.env.MQTT_BROKER; // || "broker.hivemq.com";
-const MQTT_PORT = parseInt(process.env.MQTT_PORT, 10); // || "1883", 10);
-const MQTT_TOPIC = process.env.MQTT_TOPIC; // || "smartbin/wokwi/stage2/data";
+const MQTT_BROKER = process.env.MQTT_BROKER || "olivia.hidencloud.com";
+const MQTT_PORT = parseInt(process.env.MQTT_PORT || "24608", 10);
+const MQTT_TOPIC = process.env.MQTT_TOPIC || "smartbin/wokwi/stage2/data";
 const FETCH_TIMEOUT = 8000;
 
 // Cache in-memory (per instance fungsi)
