@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗑️ Smart Waste Bin Monitor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-recycle"></i>
+                    <h1>Smart Waste Bin</h1>
+                </div>
+                <div class="connection-status" id="connectionStatus">
+                    <span class="status-dot connecting"></span>
+                    <span class="status-text">Menghubungkan...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard-main">
+            <!-- Status Card -->
+            <div class="card status-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-pie"></i> Status Waste Bin</h2>
+                </div>
+                <div class="card-body">
+                    <div class="status-badge" id="statusBadge">
+                        <span class="badge-text">MENUNGGU DATA</span>
+                    </div>
+                    <div class="mqtt-info">
+                        <small>Topic: <code id="mqttTopic">smartbin/wokwi/stage2/data</code></small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fill Level Card -->
+            <div class="card fill-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-percentage"></i> Kapasitas Terisi</h2>
+                </div>
+                <div class="card-body">
+                    <div class="fill-percentage" id="fillPercentage">
+                        <span class="percentage-value">--</span>
+                        <span class="percentage-unit">%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="fillProgressBar">
+                            <div class="progress-fill" id="fillProgress"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span>100%</span>
+                            <span>50%</span>
+                            <span>0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sensor Data Card -->
+            <div class="card sensor-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-ruler-vertical"></i> Data Sensor</h2>
+                </div>
+                <div class="card-body">
+                    <div class="sensor-grid">
+                        <div class="sensor-item">
+                            <div class="sensor-icon">
+                                <i class="fas fa-wave-square"></i>
+                            </div>
+                            <div class="sensor-info">
+                                <span class="sensor-label">Jarak Sensor</span>
+                                <span class="sensor-value" id="distanceValue">-- cm</span>
+                            </div>
+                        </div>
+                        <div class="sensor-item">
+                            <div class="sensor-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="sensor-info">
+                                <span class="sensor-label">Terakhir Update</span>
+                                <span class="sensor-value" id="lastUpdate">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bin Visualization Card -->
+            <div class="card visualization-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-trash-alt"></i> Visualisasi Waste Bin</h2>
+                </div>
+                <div class="card-body">
+                    <div class="bin-container">
+                        <div class="bin-visual" id="binVisual">
+                            <div class="bin-fill" id="binFill"></div>
+                            <div class="bin-lines">
+                                <span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                        </div>
+                        <div class="bin-labels">
+                            <span class="label-bottom">100%</span>
+                            <span class="label-mid">50%</span>
+                            <span class="label-top">0%</span>
+                        </div>
+                    </div>
+                    <div class="status-indicator" id="statusIndicator">
+                        <div class="indicator-light"></div>
+                        <span class="indicator-text">MENUNGGU</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>🗑️ Smart Waste Bin Dashboard - Powered by MQTT & Socket.IO</p>
+        </footer>
+    </div>
+
+    <!-- Socket.IO & App JS -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

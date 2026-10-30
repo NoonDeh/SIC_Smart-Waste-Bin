@@ -1,0 +1,452 @@
+/* ============================================================
+   SMART WASTE BIN DASHBOARD - STYLES
+   ============================================================ */
+
+:root {
+    --primary-color: #2ec4b6;
+    --secondary-color: #2b2d42;
+    --accent-warning: #ff9f1c;
+    --accent-danger: #e71d36;
+    --accent-success: #2ec4b6;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-primary: #2b2d42;
+    --text-secondary: #8d99ae;
+    --border-color: #dee2e6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* ============================================================
+   DASHBOARD CONTAINER
+   ============================================================ */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.dashboard-header {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo i {
+    font-size: 28px;
+    color: var(--primary-color);
+}
+
+.logo h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #f1f3f4;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+.status-dot.connecting {
+    background: var(--accent-warning);
+}
+
+.status-dot.connected {
+    background: var(--accent-success);
+}
+
+.status-dot.error {
+    background: var(--accent-danger);
+    animation: none;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.status-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.dashboard-main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .dashboard-main {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background: #fafbfc;
+}
+
+.card-header h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-header h2 i {
+    color: var(--primary-color);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* ============================================================
+   STATUS CARD
+   ============================================================ */
+.status-badge {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    color: white;
+    background: var(--text-secondary);
+    transition: background-color 0.3s ease;
+}
+
+.status-badge.normal {
+    background: var(--accent-success);
+}
+
+.status-badge.warning {
+    background: var(--accent-warning);
+}
+
+.status-badge.danger {
+    background: var(--accent-danger);
+}
+
+.mqtt-info {
+    margin-top: 15px;
+    color: var(--text-secondary);
+}
+
+.mqtt-info code {
+    background: #f1f3f4;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* ============================================================
+   FILL LEVEL CARD
+   ============================================================ */
+.fill-percentage {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.percentage-value {
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.percentage-unit {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.progress-container {
+    margin-top: 10px;
+}
+
+.progress-bar {
+    height: 24px;
+    background: #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primary-color);
+    border-radius: 12px;
+    transition: width 0.5s ease, background-color 0.3s ease;
+}
+
+.progress-fill.success {
+    background: var(--accent-success);
+}
+
+.progress-fill.warning {
+    background: var(--accent-warning);
+}
+
+.progress-fill.danger {
+    background: var(--accent-danger);
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* ============================================================
+   SENSOR CARD
+   ============================================================ */
+.sensor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.sensor-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sensor-icon {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, var(--primary-color), #1a9e92);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sensor-icon i {
+    font-size: 18px;
+    color: white;
+}
+
+.sensor-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.sensor-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+}
+
+.sensor-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+}
+
+/* ============================================================
+   VISUALIZATION CARD
+   ============================================================ */
+.bin-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.bin-visual {
+    width: 80px;
+    height: 180px;
+    background: linear-gradient(180deg, #e9ecef 0%, #dee2e6 100%);
+    border-radius: 8px 8px 20px 20px;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #adb5bd;
+}
+
+.bin-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0%;
+    background: linear-gradient(180deg, var(--primary-color) 0%, #1a9e92 100%);
+    transition: height 0.5s ease;
+}
+
+.bin-fill.warning {
+    background: linear-gradient(180deg, var(--accent-warning) 0%, #e88a00 100%);
+}
+
+.bin-fill.danger {
+    background: linear-gradient(180deg, var(--accent-danger) 0%, #c41830 100%);
+}
+
+.bin-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 10px 0;
+}
+
+.bin-lines span {
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+}
+
+.bin-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-secondary);
+    padding: 5px 0;
+}
+
+.bin-labels span {
+    font-weight: 500;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f1f3f4;
+    border-radius: 8px;
+}
+
+.indicator-light {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    transition: background 0.3s ease;
+}
+
+.indicator-light.normal {
+    background: var(--accent-success);
+    box-shadow: 0 0 10px var(--accent-success);
+}
+
+.indicator-light.warning {
+    background: var(--accent-warning);
+    box-shadow: 0 0 10px var(--accent-warning);
+}
+
+.indicator-light.danger {
+    background: var(--accent-danger);
+    box-shadow: 0 0 10px var(--accent-danger);
+}
+
+.indicator-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.dashboard-footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fillAnimation {
+    0% { transform: scaleY(0.95); }
+    50% { transform: scaleY(1.02); }
+    100% { transform: scaleY(1); }
+}
+
+.animate-fill {
+    animation: fillAnimation 0.3s ease;
+}
+
+/* ============================================================
+   ERROR STATE
+   ============================================================ */
+.error-value {
+    color: var(--accent-danger) !important;
+}
+
+.last-update-error {
+    color: var(--accent-danger) !important;
+}
