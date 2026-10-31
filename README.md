@@ -1,6 +1,6 @@
 # 🗑️ Smart Waste Bin Dashboard (Next.js)
 
-Web Dashboard untuk monitoring Smart Waste Bin secara real-time. Dibangun dengan **Next.js 14 (App Router)** sehingga dapat **di-deploy gratis ke Vercel**.
+Web Dashboard untuk monitoring Smart Waste Bin secara real-time. Dibangun dengan **Next.js** sehingga dapat **di-deploy ke Vercel**.
 
 ## Fitur
 
